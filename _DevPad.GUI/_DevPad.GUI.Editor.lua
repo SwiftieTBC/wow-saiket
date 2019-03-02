@@ -74,7 +74,7 @@ NS.Font.Paths = { -- Font file paths for font cycling button
 
 -- Editor colors
 --NS.Edit:SetTextColor( 1, 1, 1 ); -- Default text color
---NS.Background:SetTexture( 0.05, 0.05, 0.06 ); -- Text background
+--NS.Background:SetColorTexture( 0.05, 0.05, 0.06 ); -- Text background
 
 
 
@@ -291,7 +291,7 @@ end
 
 --- Runs the open script.
 function NS.Run:OnClick ()
-	PlaySound( "igMiniMapZoomIn" );
+	PlaySound( SOUNDKIT.IG_MINIMAP_ZOOM_IN );
 	return _DevPad.SafeCall( NS.Script );
 end
 --- Cycles to the next available font.
@@ -466,11 +466,11 @@ end
 
 
 function NS:OnShow ()
-	PlaySound( "igQuestListOpen" );
+	PlaySound( SOUNDKIT.IG_QUEST_LIST_OPEN );
 end
 --- Close the open script.
 function NS:OnHide ()
-	PlaySound( "igQuestListClose" );
+	PlaySound( SOUNDKIT.IG_QUEST_LIST_CLOSE );
 	StaticPopup_Hide( "_DEVPAD_GOTO" );
 	if ( not self:IsShown() ) then -- Explicitly hidden, not obscured by world map
 		return self:SetScriptObject();
@@ -517,7 +517,7 @@ Run:SetHitRectInsets( 4, 4, 4, 4 );
 NS.Title:SetPoint( "TOPLEFT", Run, "TOPRIGHT", 0, -7 );
 Run:SetNormalTexture( [[Interface\Buttons\UI-SpellbookIcon-NextPage-Up]] );
 Run:SetPushedTexture( [[Interface\Buttons\UI-SpellbookIcon-NextPage-Down]] );
-Run:SetHighlightTexture( [[Interface\BUTTONS\UI-ScrollBar-Button-Overlay]] );
+Run:SetHighlightTexture( [[Interface\Buttons\UI-SpellbookIcon-NextPage-Down]] );
 local Highlight = Run:GetHighlightTexture();
 Highlight:SetDesaturated( true );
 Highlight:SetVertexColor( 0.2, 0.8, 0.4 );
@@ -568,7 +568,7 @@ NS.Shortcuts:EnableKeyboard( false );
 -- Cursor line highlight
 Edit.Line:SetPoint( "LEFT", Margin );
 Edit.Line:SetPoint( "RIGHT" );
-Edit.Line:SetTexture( 1, 1, 1, 0.05 );
+Edit.Line:SetColorTexture( 1, 1, 1, 0.05 );
 
 ChatEdit_InsertLink = NS.ChatEditInsertLink;
 ChatEdit_OnEditFocusLost = NS.ChatEditOnEditFocusLost;
