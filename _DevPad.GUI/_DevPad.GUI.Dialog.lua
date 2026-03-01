@@ -38,7 +38,7 @@ function NS:SetVerticalScrollToCoord ( TargetTop, TargetBottom )
 end
 --- @return A new standard button frame.
 function NS:NewButton ( Path )
-	local Button = CreateFrame( "Button", nil, self );
+	local Button = CreateFrame( "Button", nil, self, BackdropTemplateMixin and "BackdropTemplate" );
 	Button:SetSize( 16, 16 );
 	Button:SetScript( "OnEnter", NS.ControlOnEnter );
 	Button:SetScript( "OnLeave", GameTooltip_Hide );
@@ -63,8 +63,8 @@ end
 function NS:AddTitleButton ( Button, Offset )
 	Button:SetPoint( "RIGHT", self.LastTitleButton or self.Close, "LEFT", Offset or 0, 0 );
 	self.Title:SetPoint( "RIGHT", Button, "LEFT" );
-	local MinX, MinY = self:GetMinResize();
-	self:SetMinResize( MinX + Button:GetWidth() - ( Offset or 0 ), MinY );
+	local MinX, MinY, MaxX, MaxY = self:GetResizeBounds();
+	self:SetResizeBounds( MinX + Button:GetWidth() - ( Offset or 0 ), MinY, MaxX, MaxY );
 	self.LastTitleButton = Button;
 end
 
@@ -143,7 +143,7 @@ do
 	end
 	--- Scrolls a bar when its button is clicked.
 	function NS:ScrollButtonOnClick ()
-		PlaySound( "UChatScrollButton" );
+		PlaySound( SOUNDKIT.U_CHAT_SCROLL_BUTTON );
 		BarIncrement( self:GetParent(), self.Delta );
 	end
 end
@@ -188,7 +188,7 @@ end
 local ResizeTexture = [[Interface\AddOns\]]..( ... )..[[\Skin\ResizeGrip]];
 --- @return A new frame.
 function NS:New ( Name )
-	local Frame = CreateFrame( "Frame", Name, UIParent );
+	local Frame = CreateFrame( "Frame", Name, UIParent, BackdropTemplateMixin and "BackdropTemplate" );
 	Frame:Hide();
 	Frame:SetScale( 0.9 );
 	Frame:SetFrameStrata( "HIGH" );
@@ -224,7 +224,7 @@ function NS:New ( Name )
 	Bottom:SetHeight( 8 );
 	local Background = Bottom:CreateTexture( nil, "BORDER" );
 	Background:SetAllPoints();
-	Background:SetTexture( 0.4, 0.4, 0.4, 0.75 );
+	Background:SetColorTexture( 0.4, 0.4, 0.4, 0.75 );
 
 	-- Scroll window
 	local Window = CreateFrame( "Frame", nil, Frame );
@@ -246,7 +246,7 @@ function NS:New ( Name )
 
 	Frame.Background = ScrollFrame:CreateTexture( nil, "BACKGROUND" );
 	Frame.Background:SetAllPoints();
-	Frame.Background:SetTexture( 0.05, 0.05, 0.06 );
+	Frame.Background:SetColorTexture( 0.05, 0.05, 0.06 );
 
 	-- Scrollbar
 	local Bar = CreateFrame( "Slider", nil, ScrollFrame );
@@ -270,7 +270,7 @@ function NS:New ( Name )
 	Thumb:SetSize( Bar.Dec:GetSize() );
 	Thumb:SetTexCoord( 0.25, 0.75, 0.25, 0.75 ); -- Remove transparent border
 	local Background = Bar:CreateTexture( nil, "BACKGROUND" );
-	Background:SetTexture( 0, 0, 0, 0.5 );
+	Background:SetColorTexture( 0, 0, 0, 0.5 );
 	Background:SetAllPoints();
 
 	Bar:SetPoint( "TOPRIGHT", Bar.Dec, "BOTTOMRIGHT" );

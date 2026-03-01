@@ -9,9 +9,9 @@ local _DevPad, GUI = _DevPad, select( 2, ... );
 local NS = {};
 GUI.Editor.Color = NS;
 
-NS.Swatch = CreateFrame( "Button", nil, GUI.Editor );
+NS.Swatch = CreateFrame( "Button", nil, GUI.Editor, BackdropTemplateMixin and "BackdropTemplate" );
 NS.Dropper = GUI.Editor:NewButton( [[Interface\AddOns\]]..( ... )..[[\Skin\ColorDropper]] );
-NS.Dropdown = CreateFrame( "Frame", nil, NS.Swatch );
+NS.Dropdown = CreateFrame( "Frame", nil, NS.Swatch, BackdropTemplateMixin and "BackdropTemplate" );
 NS.Dropdown.Custom = CreateFrame( "Button", nil, NS.Dropdown, "UIPanelButtonTemplate" );
 
 
@@ -249,7 +249,7 @@ function NS.Swatch:OnHide ()
 end
 --- Highlights selected text when left clicked, or opens dropdown on right click.
 function NS.Swatch:OnClick ( Button )
-	PlaySound( "igMainMenuOptionCheckBoxOn" );
+	PlaySound( SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON );
 	if ( Button == "RightButton" ) then
 		return ToggleFrame( NS.Dropdown );
 	end
@@ -258,7 +258,7 @@ function NS.Swatch:OnClick ( Button )
 end
 --- Picks color at the cursor when clicked.
 function NS.Dropper:OnClick ()
-	PlaySound( "igMainMenuOptionCheckBoxOn" );
+	PlaySound( SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON );
 	NS:SetSwatchColor( NS:GetCursorColor() );
 	NS.Dropdown:Hide();
 end
@@ -294,7 +294,7 @@ do
 	--- Opens a color selection dialog to choose a custom color.
 	function NS.Dropdown.Custom:OnClick ()
 		NS.Dropdown:Hide();
-		PlaySound( "igMainMenuOptionCheckBoxOn" );
+		PlaySound( SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON );
 		Info.r, Info.g, Info.b = NS.R, NS.G, NS.B;
 		FirstUpdate = true;
 		OpenColorPicker( Info );
@@ -307,7 +307,7 @@ function NS.Dropdown:DefaultOnShow ()
 end
 --- Selects this swatch's color.
 function NS.Dropdown:SwatchOnClick ()
-	PlaySound( "igMainMenuOptionCheckBoxOn" );
+	PlaySound( SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON );
 	NS:SetSwatchColor( self.R, self.G, self.B );
 	NS:ColorSelection( self.R, self.G, self.B );
 	NS.Dropdown:Hide();
@@ -316,13 +316,13 @@ end
 --- Highlights this swatch's outline on enter.
 function NS:SwatchOnEnter ()
 	local Color = NORMAL_FONT_COLOR;
-	self.Outline:SetTexture( Color.r, Color.g, Color.b );
+	self.Outline:SetColorTexture( Color.r, Color.g, Color.b );
 	GUI.Dialog.ControlOnEnter( self );
 end
 --- Restores this swatch's outline on leave.
 function NS:SwatchOnLeave ()
 	local Color = HIGHLIGHT_FONT_COLOR;
-	self.Outline:SetTexture( Color.r, Color.g, Color.b );
+	self.Outline:SetColorTexture( Color.r, Color.g, Color.b );
 	GameTooltip:Hide();
 end
 
@@ -376,7 +376,7 @@ Dropdown:SetFrameLevel( Dropdown:GetFrameLevel() + 10 ); -- Above editbox
 Dropdown:SetScript( "OnUpdate", Dropdown.OnUpdate );
 --- @return A color swatch button initialized to R, G, B.
 local function CreatePreset ( Color )
-	local Swatch = SetupSwatch( CreateFrame( "Button", nil, Dropdown ) );
+	local Swatch = SetupSwatch( CreateFrame( "Button", nil, Dropdown, BackdropTemplateMixin and "BackdropTemplate" ) );
 	Swatch.R, Swatch.G, Swatch.B = Color.r, Color.g, Color.b;
 	Swatch:GetNormalTexture():SetVertexColor( Color.r, Color.g, Color.b );
 	Swatch:SetScript( "OnClick", Dropdown.SwatchOnClick );
