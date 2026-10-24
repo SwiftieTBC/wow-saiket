@@ -47,6 +47,7 @@ _DevLocalization = setmetatable( {
 		[ "RAID" ]         = CHAT_MSG_RAID;
 		[ "PARTY" ]        = CHAT_MSG_PARTY;
 		[ "BATTLEGROUND" ] = INSTANCE_CHAT_MESSAGE;
+		[ "INSTANCE_CHAT" ] = INSTANCE_CHAT_MESSAGE;
 		[ "WHISPER" ]      = CHAT_MSG_WHISPER_INFORM;
 		[ "WHISPER_INFORM" ] = CHAT_MSG_WHISPER_INFORM;
 		[ "CHANNEL" ] = "Channel";
